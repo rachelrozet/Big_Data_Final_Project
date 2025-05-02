@@ -209,6 +209,7 @@ print("Row count using len():", row_count_len)
 
 # COMMAND ----------
 
+# Business Approach - Predicting the time of day in which an accident occurred will help law enforcement officers prepare for accidents and have emergency support on stand-by for certain time periods. Rather than be surprised when a crash happens, emergency support can be ready to take victims to care facilities and limit fatalities.
 from pyspark.ml import Pipeline
 from pyspark.ml.feature import StringIndexer, OneHotEncoder, VectorAssembler
 from pyspark.ml.classification import RandomForestClassifier
@@ -262,6 +263,7 @@ predictions.select("time_segment", "prediction").show(10)
 # MAGIC ### Model 2 - Predict Borough in Which Accident Occurred
 
 # COMMAND ----------
+# Business approach - Predicting the borough in which an accident happened allows law enforcement to better monitor accident-prone intersections, preventing accidents from occurring (such as identifying poor drivers) and/or being readily available at specific locations to support if an accident happens, limiting fatalities.
 
 # Import necessary pyspark libraries
 from pyspark.ml import Pipeline
@@ -288,7 +290,7 @@ assembler.setHandleInvalid("skip")
 
 # COMMAND ----------
 
-# Initialize model and piepline
+# Initialize model and pipeline
 rf = RandomForestClassifier(labelCol="label", featuresCol="features", numTrees=100)
 pipeline = Pipeline(stages=indexers + encoders + [label_indexer, assembler, rf])
 
@@ -318,6 +320,7 @@ predictions.select("borough", "prediction").show(10)
 
 # COMMAND ----------
 
+# Business approach - Predicting the main contributing factor of a car crash can help emergency support identify preventive measures for accidents. For example, if the leading cause of accidents in a certain borough is drunk driving, then officers can be more vigilant on the road in identifying improper driving behavior that may be due to intoxicated drivers. Or if drivers get in accidents over an external force, city planners can reevaluate the safety of certain intersections.
 # Import pyspark functions 
 from pyspark.sql.functions import coalesce, col
 
@@ -381,6 +384,8 @@ predictions.select("main_reason", "prediction").show(10)
 
 # COMMAND ----------
 
+# Business approach - Predicting the amount of people injured in a crash can help emergency support in gathering enough supplies to care for injured persons in accidents. This could aid in reducing fatalities when such tragic accidents occur.
+
 # Import pyspark packages
 from pyspark.ml.feature import VectorAssembler, StringIndexer, OneHotEncoder
 from pyspark.ml.regression import RandomForestRegressor
@@ -433,6 +438,8 @@ print(f"R² for the Random Forest Model: {r2}")
 # MAGIC ### Model 5 - Predict Total Cars Involved in Crash
 
 # COMMAND ----------
+
+# Business approach - Predicting the total cars involved in a crash can help emergency teams identify how many people may be involved in an accident, how much support is needed, and how dangerous an accident will be given a variety of factors. For example, if accidents caused by drunk driving tend to include 3 vehicles compared to external forces (environmental causes) impacting only one vehicle, focusing on drunk driving accidents may be a greater cause of concern compared to fixing city planning issues.
 
 from pyspark.ml.feature import VectorAssembler, StringIndexer, OneHotEncoder
 from pyspark.ml.regression import DecisionTreeRegressor
